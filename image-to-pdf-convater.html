@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Image to PDF Converter - Free Online Tool</title>
+
+<meta name="description" content="Convert JPG, PNG, WEBP images to PDF instantly. Free Image to PDF Converter works directly in your browser.">
+<meta name="keywords" content="Image to PDF, JPG to PDF, PNG to PDF, PDF Converter, Online PDF Tool">
+<meta name="robots" content="index,follow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f3f6fb;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:30px 15px;
+}
+
+.card{
+
+background:#fff;
+
+border-radius:15px;
+
+padding:25px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+h1{
+
+text-align:center;
+
+margin-bottom:10px;
+
+color:#222;
+
+}
+
+.desc{
+
+text-align:center;
+
+color:#666;
+
+margin-bottom:25px;
+
+}
+
+.upload{
+
+border:3px dashed #4f8cff;
+
+padding:45px;
+
+border-radius:15px;
+
+text-align:center;
+
+cursor:pointer;
+
+transition:.3s;
+
+background:#f9fbff;
+
+}
+
+.upload:hover{
+
+background:#eef5ff;
+
+}
+
+.upload input{
+
+display:none;
+
+}
+
+.upload h2{
+
+font-size:22px;
+
+margin-bottom:10px;
+
+color:#333;
+
+}
+
+.upload p{
+
+color:#666;
+
+}
+
+.buttons{
+
+display:flex;
+
+gap:15px;
+
+justify-content:center;
+
+margin-top:25px;
+
+flex-wrap:wrap;
+
+}
+
+button{
+
+padding:13px 25px;
+
+border:none;
+
+border-radius:10px;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+#pdfBtn{
+
+background:#4f8cff;
+
+color:white;
+
+}
+
+#pdfBtn:hover{
+
+background:#3475ec;
+
+}
+
+#clearBtn{
+
+background:#ef4444;
+
+color:white;
+
+}
+
+#clearBtn:hover{
+
+background:#dc2626;
+
+}
+
+.gallery{
+
+margin-top:30px;
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+gap:20px;
+
+}
+
+.item{
+
+background:#fff;
+
+border-radius:12px;
+
+box-shadow:0 6px 15px rgba(0,0,0,.08);
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+.item img{
+
+width:100%;
+
+min-height:180px;
+
+max-height:220px;
+
+object-fit:cover;
+
+display:block;
+
+}
+
+.info{
+
+padding:10px;
+
+font-size:14px;
+
+color:#555;
+
+text-align:center;
+
+word-break:break-word;
+
+}
+
+.remove{
+
+position:absolute;
+
+top:10px;
+
+right:10px;
+
+width:35px;
+
+height:35px;
+
+border-radius:50%;
+
+background:#ef4444;
+
+color:white;
+
+font-size:18px;
+
+border:none;
+
+cursor:pointer;
+
+}
+
+.remove:hover{
+
+background:#dc2626;
+
+}
+
+.buttons{
+
+display:flex;
+
+gap:15px;
+
+justify-content:center;
+
+margin-top:25px;
+
+flex-wrap:wrap;
+
+}
+
+.buttons button{
+
+flex:1 1 150px;
+
+min-width:140px;
+
+max-width:240px;
+
+}
+
+footer{
+
+text-align:center;
+
+margin-top:40px;
+
+color:#666;
+
+font-size:14px;
+
+}
+
+@media(max-width:700px){
+
+.container{
+
+padding:20px 12px;
+
+}
+
+.upload{
+
+padding:25px;
+
+}
+
+.upload h2{
+
+font-size:20px;
+
+}
+
+.gallery{
+
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+
+}
+
+.item img{
+
+height:150px;
+
+}
+
+.buttons{
+
+flex-direction:column;
+
+align-items:stretch;
+
+}
+
+.buttons button{
+
+width:100%;
+
+max-width:none;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Image to PDF Converter</h1>
+
+<p class="desc">
+
+Convert JPG, PNG, JPEG and WEBP images into a PDF instantly.
+
+</p>
+
+<label class="upload">
+
+<input type="file"
+
+id="images"
+
+multiple
+
+accept="image/*">
+
+<h2>Select Images</h2>
+
+<p>
+
+Click here to upload one or multiple images.
+
+</p>
+
+</label>
+
+<div class="buttons">
+
+<button id="pdfBtn">
+
+Download PDF
+
+</button>
+
+<button id="clearBtn">
+
+Clear All
+
+</button>
+
+</div>
+
+<div class="gallery" id="gallery">
+
+</div>
+
+</div>
+
+<footer>
+
+© 2026 EG Tools Online
+
+</footer>
+
+</div>
+
+<script>
+
+const fileInput=document.getElementById("images");
+
+const gallery=document.getElementById("gallery");
+
+const pdfBtn=document.getElementById("pdfBtn");
+
+const clearBtn=document.getElementById("clearBtn");
+
+let images=[];
+
+fileInput.addEventListener("change",e=>{
+
+Array.from(e.target.files).forEach(file=>{
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+
+images.push({
+
+name:file.name,
+
+data:event.target.result
+
+});
+
+renderGallery();
+
+}
+
+reader.readAsDataURL(file);
+
+});
+
+});
+
+function renderGallery(){
+
+gallery.innerHTML="";
+
+images.forEach((img,index)=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<img src="${img.data}">
+
+<button class="remove"
+
+onclick="removeImage(${index})">
+
+✕
+</button>
+
+<div class="info">
+
+${img.name}
+
+</div>
+
+`;
+
+gallery.appendChild(div);
+
+});
+
+}
+
+function removeImage(index){
+
+images.splice(index,1);
+
+renderGallery();
+
+}
+
+function loadImage(src){
+    return new Promise((resolve,reject)=>{
+        const img=new Image();
+        img.crossOrigin="anonymous";
+        img.onload=()=>resolve(img);
+        img.onerror=()=>reject(new Error("Unable to load image."));
+        img.src=src;
+    });
+}
+
+function toPngDataUrl(img){
+    const canvas=document.createElement("canvas");
+    canvas.width=img.width;
+    canvas.height=img.height;
+    const ctx=canvas.getContext("2d");
+    ctx.drawImage(img,0,0);
+    return canvas.toDataURL("image/png");
+}
+
+pdfBtn.addEventListener("click", async () => {
+
+    if (images.length === 0) {
+        alert("Please select at least one image.");
+        return;
+    }
+
+    pdfBtn.disabled = true;
+    pdfBtn.textContent = "Creating PDF...";
+
+    try {
+
+        const { jsPDF } = window.jspdf;
+
+        const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4"
+        });
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        for (let i = 0; i < images.length; i++) {
+
+            const img = await loadImage(images[i].data);
+            const imageData = toPngDataUrl(img);
+
+            const ratio = Math.min(
+                (pageWidth - 20) / img.width,
+                (pageHeight - 20) / img.height
+            );
+
+            const imgWidth = img.width * ratio;
+            const imgHeight = img.height * ratio;
+
+            const x = (pageWidth - imgWidth) / 2;
+            const y = (pageHeight - imgHeight) / 2;
+
+            if (i > 0) pdf.addPage();
+
+            pdf.addImage(
+                imageData,
+                "PNG",
+                x,
+                y,
+                imgWidth,
+                imgHeight,
+                undefined,
+                "FAST"
+            );
+
+        }
+
+        pdf.save("EG-Tools-Image-to-PDF.pdf");
+
+    } catch (err) {
+
+        console.error(err);
+        alert("Failed to create PDF. Please try again with different images.");
+
+    }
+
+    pdfBtn.disabled = false;
+    pdfBtn.textContent = "Download PDF";
+
+});
+
+clearBtn.addEventListener("click", () => {
+
+    images = [];
+    gallery.innerHTML = "";
+    fileInput.value = "";
+
+});
+
+</script>
+
+</body>
+</html>
